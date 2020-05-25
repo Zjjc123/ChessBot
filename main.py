@@ -25,12 +25,12 @@ usernameField.send_keys(username)
 passwordField.send_keys(password)
 passwordField.send_keys(Keys.ENTER)
 
-time.sleep(1)
+time.sleep(0.5)
 
-# Play
+# Play Tab
 browser.find_element_by_css_selector('li[data-tab="challenge"]').click()
 
-time.sleep(1)
+time.sleep(0.5)
 
 # Vs Computer
 challengeMenu = browser.find_elements_by_class_name("challenge-menu-item")
@@ -39,18 +39,17 @@ for menu in challengeMenu:
         menu.click()
         break
 
-time.sleep(1)
+time.sleep(0.5)
 
 # Vs Stocfish
 botMenu = browser.find_elements_by_class_name("vs-computer-row")
 for menu in botMenu:
-    image = menu.find_element_by_xpath('//*[@class="vs-computer-row"]/img')
-    if (image.get_attribute("alt") == "stockfish"):
+    bot = menu.find_elements_by_class_name("user-tagline-username")
+    if (bot[0].text == "stockfish"):
         menu.click()
         break
 
-vsBot = browser.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[1]/div[1]/div/a[88]').click()
-
+# Play Button
 browser.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[1]/div[1]/div[2]/button').click()
 
 boardElement = browser.find_element_by_xpath('//*[@id="game-board"]')
