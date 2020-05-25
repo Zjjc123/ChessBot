@@ -25,12 +25,29 @@ usernameField.send_keys(username)
 passwordField.send_keys(password)
 passwordField.send_keys(Keys.ENTER)
 
-time.sleep(2)
-browser.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[1]/ul/li[2]').click()
+time.sleep(1)
 
-browser.find_element_by_name('//*[@id="board-layout-sidebar"]/div/div[1]/div[1]/div[2]/a[2]').click()
+# Play
+browser.find_element_by_css_selector('li[data-tab="challenge"]').click()
 
 time.sleep(1)
+
+# Vs Computer
+challengeMenu = browser.find_elements_by_class_name("challenge-menu-item")
+for menu in challengeMenu:
+    if (menu.text.rstrip() == "vs Computer"):
+        menu.click()
+        break
+
+time.sleep(1)
+
+# Vs Stocfish
+botMenu = browser.find_elements_by_class_name("vs-computer-row")
+for menu in botMenu:
+    image = menu.find_element_by_xpath('//*[@class="vs-computer-row"]/img')
+    if (image.get_attribute("alt") == "stockfish"):
+        menu.click()
+        break
 
 vsBot = browser.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[1]/div[1]/div/a[88]').click()
 
