@@ -52,23 +52,28 @@ for menu in botMenu:
 # Play Button
 browser.find_element_by_xpath('//*[@id="board-layout-sidebar"]/div/div[1]/div[1]/div[2]/button').click()
 
-boardElement = browser.find_element_by_xpath('//*[@id="game-board"]')
-width, height = board.getBoardDimensions(boardElement)
+time.sleep(1)
 
-print("Board Dimension: " + width + "x" + height)
+piecesElement = browser.find_element_by_css_selector('#game-board > div.pieces')
 
-while (True):
-    WebDriverWait(browser, 100).until(turn.waitContains('//*[@id="board-layout-player-bottom"]/div/div[3]', 'class', 'clock-playerTurn'))
-
-    print('Player Turn')
-
-
-'''
+# Initialized Stockfish
 stockfish = Stockfish("stockfish.exe")
 
-print(stockfish.get_best_move())
+while (True):
+    # Save old board states
+    oldBoard = board.getBoardState(piecesElement)
 
-stockfish.set_position(["e3"])
+    # Wait until bot's turn
+    WebDriverWait(browser, 100).until(turn.waitContains('//*[@id="board-layout-player-bottom"]/div/div[3]', 'class', 'clock-playerTurn'))
+    
+    # Get new board states
+    newBoard = board.getBoardState(piecesElement)
 
-print(stockfish.get_best_move())
-'''
+    # Get piece that moved
+    stateChange = board.getBoardChange(oldBoard, newBoard)
+
+    # Move that piece in stockfish
+    stockfish.set_position([stateChange])
+
+    # Calculate the best move
+    bestMove = stockfish.get_best_move()
