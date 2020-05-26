@@ -18,17 +18,6 @@ piecesDictionary = {
 }
 
 whiteCoordinate = {
-    "a" : 8,
-    "b" : 7,
-    "c" : 6,
-    "d" : 5,
-    "e" : 4,
-    "f" : 3,
-    "g" : 2,
-    "h" : 1,
-}
-
-blackCoordinate = {
     "a" : 1,
     "b" : 2,
     "c" : 3,
@@ -37,6 +26,17 @@ blackCoordinate = {
     "f" : 6,
     "g" : 7,
     "h" : 8,
+}
+
+blackCoordinate = {
+    "a" : 8,
+    "b" : 7,
+    "c" : 6,
+    "d" : 5,
+    "e" : 4,
+    "f" : 3,
+    "g" : 2,
+    "h" : 1,
 }
 
 
