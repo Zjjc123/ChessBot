@@ -72,9 +72,7 @@ while (True):
     newBoard = board.Board(piecesElement)
 
     # Get fen position
-    fenPosition = board.boardToFEN(newBoard, side)
-
-    print(fenPosition)
+    fenPosition = board.getFENPosition(newBoard, side)
 
     # Move that piece in stockfish
     stockfish.set_fen_position(fenPosition)
@@ -82,4 +80,6 @@ while (True):
     # Calculate the best move
     bestMove = stockfish.get_best_move()
 
+    # Execute move
+    board.executeMove(bestMove, side, browser)
     print(bestMove)
