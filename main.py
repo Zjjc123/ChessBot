@@ -56,6 +56,11 @@ time.sleep(1)
 
 piecesElement = browser.find_element_by_css_selector('#game-board > div.pieces')
 
+# Get Side
+side = 'w'
+if (browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]').get_attribute('class').find('clock-black') > -1):
+    side = 'b'
+
 # Initialized Stockfish
 stockfish = Stockfish("stockfish.exe")
 
@@ -67,7 +72,7 @@ while (True):
     newBoard = board.Board(piecesElement)
 
     # Get fen position
-    fenPosition = board.boardToFEN(newBoard, 'w')
+    fenPosition = board.boardToFEN(newBoard, side)
 
     print(fenPosition)
 
