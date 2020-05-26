@@ -66,13 +66,15 @@ while (True):
     # Get new board states
     newBoard = board.Board(piecesElement)
 
-    '''
-    # Get piece that moved
-    fenPosition = board.boardToFEN(newBoard)
+    # Get fen position
+    fenPosition = board.boardToFEN(newBoard, 'w')
+
+    print(fenPosition)
 
     # Move that piece in stockfish
     stockfish.set_fen_position(fenPosition)
 
     # Calculate the best move
     bestMove = stockfish.get_best_move()
-    '''
+
+    print(bestMove)
