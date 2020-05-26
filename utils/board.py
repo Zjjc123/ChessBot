@@ -1,36 +1,46 @@
 import numpy as np
 
 piecesDictionary = {
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png": "whitePawn",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png": "whiteRook",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png": "whiteKnight",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png": "whiteBishop",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png": "whiteQueen",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png": "whiteKing",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wp.png": "wp",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wr.png": "wr",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wn.png": "wn",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wb.png": "wb",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wq.png": "wq",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/wk.png": "wk",
 
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png": "blackPawn",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png": "blackRook",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png": "blackKnight",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png": "blackBishop",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png": "blackQueen",
-    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png": "blackKing"
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bp.png": "bp",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/br.png": "br",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bn.png": "bn",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bb.png": "bb",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bq.png": "bq",
+    "images.chesscomfiles.com/chess-themes/pieces/neo/150/bk.png": "bk"
 }
 
-def getBoardState(pElement):
-    boardState = np.zeros(dtype="S12", shape=(8, 8))
-    pieces = pElement.find_elements_by_xpath(".//*")
 
-    for piece in pieces:
-        image = piece.get_attribute('style')
-        imageURL = image.split('//')[1].split('")')[0]
-        position = piece.get_attribute('class').split('square-')[1]
+class Board:
+    def __init__(self, pElement):
+        boardState = np.full(fill_value="em", shape=(8, 8))
+        pieces = pElement.find_elements_by_xpath(".//*")
 
-        # print(piecesDictionary[imageURL] + ": " + position[1] + ',' + position[3])
+        for piece in pieces:
+            image = piece.get_attribute('style')
+            imageURL = image.split('//')[1].split('")')[0]
+            position = piece.get_attribute('class').split('square-')[1]
 
-        x = int(position[1])
-        y = int(position[3])
+            # print(piecesDictionary[imageURL] + ": " + position[1] + ',' + position[3])
 
-        boardState[y - 1][x - 1] = piecesDictionary[imageURL]
+            x = int(position[1])
+            y = int(position[3])
 
-    print(boardState)
+            boardState[y - 1][x - 1] = piecesDictionary[imageURL]
+        self.state = boardState
+        self.count = len(pieces)
 
+        print(self.state)
+
+
+'''
+def boardToFEN(board):
+    fen = ""
+    for piece in board:
+'''

@@ -60,20 +60,19 @@ piecesElement = browser.find_element_by_css_selector('#game-board > div.pieces')
 stockfish = Stockfish("stockfish.exe")
 
 while (True):
-    # Save old board states
-    oldBoard = board.getBoardState(piecesElement)
-
     # Wait until bot's turn
     WebDriverWait(browser, 100).until(turn.waitContains('//*[@id="board-layout-player-bottom"]/div/div[3]', 'class', 'clock-playerTurn'))
     
     # Get new board states
-    newBoard = board.getBoardState(piecesElement)
+    newBoard = board.Board(piecesElement)
 
+    '''
     # Get piece that moved
-    stateChange = board.getBoardChange(oldBoard, newBoard)
+    fenPosition = board.boardToFEN(newBoard)
 
     # Move that piece in stockfish
-    stockfish.set_position([stateChange])
+    stockfish.set_fen_position(fenPosition)
 
     # Calculate the best move
     bestMove = stockfish.get_best_move()
+    '''
