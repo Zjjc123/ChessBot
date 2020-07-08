@@ -9,7 +9,12 @@ from utils import board, turn
 import re
 import time
 
-browser = webdriver.Chrome("chromedriver.exe")
+userprofile = 'C:/Users/zjjc1/AppData/Local/Google/Chrome/User Data/Default'
+options = webdriver.ChromeOptions()
+options.add_argument("user-data-dir={}".format(userprofile))
+options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors", "safebrowsing-disable-download-protection", "safebrowsing-disable-auto-update", "disable-client-side-phishing-detection"])
+
+browser = webdriver.Chrome("chromedriver.exe", chrome_options=options)
 browser.get("https://www.chess.com/live")
 
 usernameField = browser.find_element_by_xpath('//*[@id="username"]')
@@ -21,8 +26,10 @@ username = f.readline().rstrip()
 password = f.readline().rstrip()
 
 
-usernameField.send_keys(username)
+usernameField.send_keys(username) 
+time.sleep(1)
 passwordField.send_keys(password)
+time.sleep(1)
 passwordField.send_keys(Keys.ENTER)
 
 time.sleep(0.5)
@@ -45,7 +52,7 @@ time.sleep(0.5)
 botMenu = browser.find_elements_by_class_name("vs-computer-row")
 for menu in botMenu:
     bot = menu.find_elements_by_class_name("user-tagline-username")
-    if (bot[0].text == "stockfish"):
+    if (bot[0].text == "Alexander-BOT"):
         menu.click()
         break
 
@@ -58,7 +65,7 @@ piecesElement = browser.find_element_by_css_selector('#game-board > div.pieces')
 
 # Get Side
 side = 'w'
-if (browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[3]').get_attribute('class').find('clock-black') > -1):
+if (browser.find_element_by_xpath('//*[@id="board-layout-player-bottom"]/div/div[2]').get_attribute('class').find('clock-black') > -1):
     side = 'b'
 
 # Initialized Stockfish
@@ -66,7 +73,7 @@ stockfish = Stockfish("stockfish.exe")
 
 while (True):
     # Wait until bot's turn
-    WebDriverWait(browser, 100).until(turn.waitContains('//*[@id="board-layout-player-bottom"]/div/div[3]', 'class', 'clock-playerTurn'))
+    WebDriverWait(browser, 100000).until(turn.waitContains('//*[@id="board-layout-player-bottom"]/div/div[3]', 'class', 'clock-playerTurn'))
     
     # Get new board states
     newBoard = board.Board(piecesElement)
